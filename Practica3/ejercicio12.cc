@@ -36,8 +36,11 @@ int main(int argc, char **argv) {
    saStp.sa_flags = SA_RESTART;
    
    sigaction(SIGTSTP, &saStp, 0);
-
-   while((contInt + contStp) < 10){}
+   sigset_t s;
+   sigemptyset(&s);
+   while((contInt + contStp) < 10){
+      sigsuspend(&s);
+   }
    printf("El valor del contador de señales SIGINT es: %i\n", contInt);
    printf("El valor del contador de señales SIGTSTP es: %i\n", contStp);
 
