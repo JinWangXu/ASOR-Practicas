@@ -23,24 +23,24 @@ int main(int argc, char **argv) {
          perror("fork");
          exit(1);
       case 0:
-         if(dup2(fd[1], 1) == -1){
-             printf("Error: %s\n",strerror(errno));
-             return -1;
-         }
-         close(fd[1]);
-         close(fd[0]);
-         if(execlp(argv[1], argv[1], argv[2], NULL) == -1){
-            perror("Exec Failed");
-            return -1;
-         }
-      default:
          if(dup2(fd[0], 0) == -1){
              printf("Error: %s\n",strerror(errno));
              return -1;
          }
+         close(fd[1]);
+         close(fd[0]);
+         if(execlp(argv[3], argv[3], argv[4], NULL) == -1){
+            perror("Exec Failed");
+            return -1;
+         }
+      default:
+         if(dup2(fd[1], 1) == -1){
+             printf("Error: %s\n",strerror(errno));
+             return -1;
+         }
          close(fd[0]);
          close(fd[1]);
-         if(execlp(argv[3], argv[3], argv[4], NULL) == -1){
+         if(execlp(argv[1], argv[1], argv[2], NULL) == -1){
             perror("Exec Failed");
             return -1;
          }
